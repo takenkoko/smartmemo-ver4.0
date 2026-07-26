@@ -131,3 +131,13 @@ def register(request):
         }
     )
 
+#プロフィール画面機能
+@login_required
+def profile(request):
+    return render(
+        request,
+        "smartmemo/profile.html",
+        {
+            "user":request.user,
+        }
+    )

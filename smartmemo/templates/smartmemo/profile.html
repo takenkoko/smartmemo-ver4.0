@@ -1,0 +1,44 @@
+{% extends "smartmemo/base.html" %}
+
+{% block title %}
+プロフィール
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        
+        <div class="col-md-6">
+
+            <div class="card login-card">
+
+                <div class="card-body">
+
+                    <h2 class="login-title">
+                        プロフィール
+                    </h2>
+
+                    <table class="table">
+
+                        <tr>
+                            <th>ユーザー名</th>
+                            <td>{{ user.username }}</td>
+                        </tr>
+                        
+                        <tr>
+                            <th>登録日</th>
+                            <td>{{ user.date_joined }}</td>
+                        </tr>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+{% endblock %}

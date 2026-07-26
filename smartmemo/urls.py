@@ -9,4 +9,5 @@ urlpatterns=[
     path("search/",views.search,name="search"),
     path("category/<int:category_id>/",views.category,name="category",),
     path("register/", views.register, name="register"),
+    path("profile/",views.profile, name="profile"),
 ]

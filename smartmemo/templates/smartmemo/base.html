@@ -19,8 +19,12 @@
                 </a>
 
                 <div class="navbar-nav ms-5 me-3">
-                    <a class="nav-link" href="/">HOME</a>
-                    <a class="nav-link" href="/create/">NEW MEMO</a>
+                    <a class="nav-link" href="{% url 'index' %}">HOME</a>
+
+                    <a class="nav-link" href="{% url 'create' %}">NEW MEMO</a>
+
+                    <a class="nav-link" href="{% url 'profile' %}">PROFILE</a>
+
                 </div>
                 
                  <form class="d-flex ms-auto" method="GET" action="/search/">
