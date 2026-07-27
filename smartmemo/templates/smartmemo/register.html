@@ -29,6 +29,21 @@
                             {{ form.username.errors }}
                         </div>
 
+                        <!--メールアドレス-->
+                        <div class="mb-3">
+                            <label class="form-label">
+                                {{ form.email.label}}
+                            </label>
+
+                            {{ form.email }}
+
+                            {% for error in form.email.erros %}
+                            <div class="alert alert-danger mt-2">
+                                ⚠️ {{ error }}
+                            </div>
+                            {% endfor %}
+                        </div>
+
                         <!--パスワード-->
 
                         <div class="mb-3">

@@ -4,10 +4,17 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.forms import UserChangeForm
 from django.contrib.auth.models import User
 
+
 #==========================
 #ユーザー登録フォームを作成
 #==========================
 class RegisterForm(UserCreationForm):#新しくユーザーを作るためのフォーム
+
+    #メールアドレス入力対応
+    email = forms.EmailField(
+        label="メールアドレス",
+        required=True,
+    )
 
     error_messages = {
         "password_mismatch":"入力したパスワードが一致しません。",
@@ -25,6 +32,11 @@ class RegisterForm(UserCreationForm):#新しくユーザーを作るためのフ
         self.fields["username"].widget.attrs.update({
             "class":"form-control",
             "placeholder":"ユーザ―名",
+        })
+
+        self.fields["email"].widget.attrs.update({
+            "class":"form-control",
+            "placeholder":"メールアドレス",
         })
 
         self.fields["password1"].widget.attrs.update({
@@ -50,6 +62,7 @@ class RegisterForm(UserCreationForm):#新しくユーザーを作るためのフ
         model = User
         fields=(
             "username",
+            "email",
             "password1",
             "password2",
         )
