@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.forms import UserCreationForm 
+from django.contrib.auth.forms import UserChangeForm
 from django.contrib.auth.models import User
 
 #==========================
@@ -77,3 +78,31 @@ class LoginForm(AuthenticationForm):
             "class":"form-control",
             "placeholder":"パスワード",
         })
+
+#===========================
+#プロフィール編集フォーム
+#===========================
+class ProfileEditForm(UserChangeForm):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.fields["username"].label = "ユーザー名"
+        self.fields["email"].label = "メールアドレス"
+
+        self.fields["username"].widget.attrs.update({
+            "class":"form-control",
+            "placeholder":"ユーザー名",
+        })
+
+        self.fields["email"].widget.attrs.update({
+            "class":"form-control",
+            "placeholder":"メールアドレス",
+        })
+
+    class Meta:
+        model = User
+        fields = (
+            "username",
+            "email",
+        )
