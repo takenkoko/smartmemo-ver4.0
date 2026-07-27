@@ -1,0 +1,61 @@
+{% extends "smartmemo/base.html" %}
+
+<!--プロフィール編集-->
+{% block title %}
+プロフィール編集
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row justify-content-center">
+
+        <div class="col-md-6">
+            
+            <div class="card login-card">
+                
+                <div class="card-body">
+                    
+                    <h2 class="login-title">
+                        プロフィール編集
+                    </h2>
+                </div>
+                
+                <form method="post">
+                    {% csrf_token %}
+                    
+                    <div class="mb-3">
+                        <label class="form-label">
+                            {{ form.username.label}}
+                        </label>
+                        
+                        {{ form.username }}
+                    </div>
+                    
+                    <div class="mb-3">
+                        
+                        <label class="form-label">
+                            {{ form.email.label}}
+                        </label>
+                        
+                        {{ form.email }}
+                    
+                    </div>
+                    
+                    <div class="text-center mt-4">
+                        
+                        <button type="submit" class="btn btn-success">
+                            保存
+                        </button>
+                    </div>
+                </form>
+        
+            </div>
+        
+        </div>
+    
+    </div>
+
+</div>
+
+{% endblock %}

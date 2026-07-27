@@ -2,7 +2,8 @@ from django.shortcuts import render,redirect
 from .models import Memo, Category
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
-from .forms import RegisterForm #ユーザー登録機能
+
+from .forms import RegisterForm,ProfileEditForm  #ユーザー登録機能
 from django.shortcuts import render,redirect
 
 # Create your views here.
@@ -141,3 +142,16 @@ def profile(request):
             "user":request.user,
         }
     )
+
+#プロフィール編集機能
+@login_required
+def profile_edit(request):
+    if request.method == "POST":
+        form = ProfileEditForm(request.POST,instance=request.user)
+        if form.is_valid():
+            form.save()
+            return redirect("profile")
+    else:
+        form = ProfileEditForm(instance=request.user)
+
+    return render(request,"smartmemo/profile_edit.html", {"form": form})
