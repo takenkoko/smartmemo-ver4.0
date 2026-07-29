@@ -2,6 +2,8 @@ from django import forms
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.forms import UserCreationForm 
 from django.contrib.auth.forms import UserChangeForm
+from django.contrib.auth.forms import PasswordChangeForm
+from django.core.exceptions import ValidationError
 from django.contrib.auth.models import User
 
 
@@ -119,3 +121,52 @@ class ProfileEditForm(UserChangeForm):
             "username",
             "email",
         )
+
+#=====================
+#パスワード変更フォーム
+#=====================
+class CustomPasswordChangeForm(PasswordChangeForm):
+
+    error_messages ={
+        "password_mismatch":"新しいパスワードと確認用パスワードが一致していません。",
+        "password_incorrect":"現在のパスワードが正しくありません。"
+    }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__( *args, **kwargs)
+
+        self.fields["old_password"].label = "現在のパスワード"
+        self.fields["new_password1"].label = "新しいパスワード"
+        self.fields["new_password2"].label = "新しいパスワード(確認)"
+
+        # Bootstrap対応
+        self.fields["old_password"].widget.attrs.update({
+            "class":"form-control",
+            "placeholder":"現在のパスワード",
+        })
+
+        self.fields["new_password1"].widget.attrs.update({
+            "class":"form-control",
+            "placeholder":"新しいパスワード",
+        })
+
+        self.fields["new_password2"].widget.attrs.update({
+            "class":"form-control",
+            "placeholder":"新しいパスワード(確認)",
+        })
+
+        #注意文の日本語化
+        self.fields["new_password1"].help_text=(
+            "他の個人情報と類似しすぎないものにしてください。"
+            "パスワードは8文字以上である必要があります。"
+            "数字のみのパスワードは使用できません。"
+        )
+
+#パスワードが8文字以上ではない場合
+def clean_new_password1(self):
+    password1 = self.cleaned_data.get("new_password1")
+    try:
+        super().clean_new_password1()
+    except ValidationError:
+        raise ValidationError("パスワードが8文字以上で入力してください。")
+    return password1
