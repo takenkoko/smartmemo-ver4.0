@@ -24,4 +24,5 @@ urlpatterns=[
          ),
          name="password_change_done",
          ),
+    path("account/delete/",views.account_delete, name="account_delete"),
 ]

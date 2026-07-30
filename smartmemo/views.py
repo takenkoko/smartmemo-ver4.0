@@ -2,6 +2,7 @@ from django.shortcuts import render,redirect
 from .models import Memo, Category
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import logout
 
 from .forms import RegisterForm,ProfileEditForm  #ユーザー登録機能
 from django.shortcuts import render,redirect
@@ -155,3 +156,26 @@ def profile_edit(request):
         form = ProfileEditForm(instance=request.user)
 
     return render(request,"smartmemo/profile_edit.html", {"form": form})
+
+#アカウント退会機能
+@login_required
+def account_delete(request):
+    if request.method == "POST":
+        password = request.POST.get("password")
+        user = request.user
+
+        if user.check_password(password):
+            #ユーザーのメモをすべて削除
+            Memo.objects.filter(user=user).delete()
+
+            #ユーザー自身を削除
+            logout(request)
+            user.delete()
+
+            return redirect("login")
+        else:
+            return render(request, "smartmemo/account_delete.html",{
+                "error":"パスワードが正しくありません。"
+            })
+        
+    return render(request,"smartmemo/account_delete.html")
