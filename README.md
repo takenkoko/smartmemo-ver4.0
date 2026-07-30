@@ -27,6 +27,14 @@
 - ユーザー登録パスワードが一致しないときアラート画面
 ![password Error](screenshots/password_error_v4.0.png) 
 
+- プロフィール画面
+![Profile](screenshots/profile_v4.0.png)
+
+- パスワード変更画面
+![PasswordChange](screenshots/password_change_v4.0.png)
+
+- アカウント削除画面
+![AccountDelete](screenshots/delete_v4.0.png)
 
 Django・Bootstrap・CSSで構築したシンプルなメモ管理Webアプリです。
 
@@ -41,6 +49,10 @@ Django・Bootstrap・CSSで構築したシンプルなメモ管理Webアプリ�
 - ログイン画面に「新規登録はこちら」を追加
 - `{{ form.as_p }}` を卒業し、フォームを手動で作成
 - 新たにナビゲーションバーの色を変更
+- プロフィール画面（表示・編集）を追加
+- ユーザー登録時にメールアドレス入力欄を追加
+- パスワード変更機能を追加（PasswordChangeView + カスタムフォームで日本語化）
+- アカウント削除機能を追加（パスワード確認・確認ダイアログ付き）
 
 
 
@@ -54,8 +66,10 @@ Django・Bootstrap・CSSで構築したシンプルなメモ管理Webアプリ�
 - User registration (Sign Up)
 - User authentication (Login / Logout)
 - User-specific memo management
+- Profile view / edit
+- Password change
+- Account deletion
 - Bootstrap UI
-- Custom CSS
 
 ## Tech Stack
 - Python
@@ -67,13 +81,11 @@ Django・Bootstrap・CSSで構築したシンプルなメモ管理Webアプリ�
 - GitHub
 
 ## Future Plans
-- User registration (Sign Up)
 - PostgreSQL migration
 - Responsive UI improvements
 - Markdown support
 - Code syntax highlighting
 - Dark mode
-
 
 
 ## 開発メモ
