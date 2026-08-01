@@ -75,3 +75,19 @@ Smartmemo login 画面UIデザインを作成
     width: 100%;
     margin-top: 15px;
 }
+
+/*アイコン画像の枠線*/
+.profile-icon{
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 3px solid #0d6efd;
+}
+.profile-icon-large{
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 3px solid #0d6efd;
+}

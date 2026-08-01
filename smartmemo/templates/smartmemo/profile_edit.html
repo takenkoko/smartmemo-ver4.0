@@ -44,11 +44,11 @@
 
                             {% if request.user.profile.icon %}
                             <div class="mb-2">
-                                <img src="{{ request.user.profile.icon.url }}" alt="現在の画像" class="rounded-circle" style="width: 80px; height: 80px; object-fit:cover ;">   
+                                <img src="{{ request.user.profile.icon.url }}" alt="現在の画像" class="profile-icon">   
                             </div>
                             {% endif%}
 
-                            <input type="file" name="icon" class="form-control" accept="imge/*">
+                            <input type="file" name="icon" class="form-control" accept="image/*">
 
                             {% for error in imge_form.icon.errors %}
                             <div class="alert alert-danger mt-2">⚠️ {{ error }}</div>
