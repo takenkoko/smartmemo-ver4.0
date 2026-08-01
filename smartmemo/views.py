@@ -4,8 +4,10 @@ from django.db.models import Q
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 
-from .forms import RegisterForm,ProfileEditForm  #ユーザー登録機能
+from .forms import RegisterForm,ProfileEditForm,ProfileImageForm  #ユーザー登録機能 #アイコン追加
+from .models import Profile
 from django.shortcuts import render,redirect
+
 
 # Create your views here.
 @login_required
@@ -15,7 +17,9 @@ def index(request):
         "memos":memos,
     })
 
+#============
 #フォーム作成
+#============
 @login_required
 def create(request):
     if request.method=="POST":
@@ -42,7 +46,9 @@ def create(request):
                   }
                   )
 
+#==============
 #編集機能を作成
+#==============
 @login_required
 def edit(request,memo_id):
     memo = Memo.objects.get(id=memo_id, user=request.user,)
@@ -61,7 +67,9 @@ def edit(request,memo_id):
         "memo":memo,
     })
 
+#=============
 #削除機能を作成
+#=============
 @login_required
 def delete(request,memo_id):
     memo=Memo.objects.get(id=memo_id, user=request.user,)
@@ -70,7 +78,9 @@ def delete(request,memo_id):
     
     return redirect("index")
 
+#==============
 #検索機能を作成
+#==============
 @login_required
 def search(request):
     keyword = request.GET.get("keyword","")
@@ -94,7 +104,9 @@ def search(request):
         }
     )
 
+#=====================================================
 #カテゴリをクリックすると、そのカテゴリのメモだけを表示する
+#=====================================================
 @login_required
 def category(request,category_id):
     category = Category.objects.get(id=category_id)
@@ -110,7 +122,9 @@ def category(request,category_id):
         }
     )
 
+#===============
 #ユーザー登録機能
+#===============
 def register(request):
 
     if request.method == "POST":
@@ -133,7 +147,9 @@ def register(request):
         }
     )
 
+#===================
 #プロフィール画面機能
+#===================
 @login_required
 def profile(request):
     return render(
@@ -144,7 +160,9 @@ def profile(request):
         }
     )
 
+#===================
 #プロフィール編集機能
+#===================
 @login_required
 def profile_edit(request):
     if request.method == "POST":
@@ -157,7 +175,9 @@ def profile_edit(request):
 
     return render(request,"smartmemo/profile_edit.html", {"form": form})
 
+#=================
 #アカウント退会機能
+#=================
 @login_required
 def account_delete(request):
     if request.method == "POST":
@@ -179,3 +199,27 @@ def account_delete(request):
             })
         
     return render(request,"smartmemo/account_delete.html")
+
+#======================
+#プロフィールアイコン機能
+#======================
+@login_required
+def profile_edit(request):
+    profile, create = Profile.objects.get_or_create(user=request.user)
+
+    if request.method == "POST":
+        form = ProfileEditForm(request.POST,instance=request.user)
+        imge_form = ProfileImageForm(request.POST, request.FILES, instance=request.user.profile)
+
+        if form.is_valid() and imge_form.is_valid():
+            form.save()
+            imge_form.save()
+            return redirect("profile")
+    else:
+        form = ProfileEditForm(instance=request.user)
+        imge_form = ProfileImageForm(instance=request.user.profile)
+
+    return render(request,"smartmemo/profile_edit.html",{
+        "form":form,
+        "imge_form":imge_form,
+    })

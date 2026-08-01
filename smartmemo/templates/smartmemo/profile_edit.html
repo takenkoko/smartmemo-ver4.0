@@ -19,36 +19,51 @@
                     <h2 class="login-title">
                         プロフィール編集
                     </h2>
+
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        
+                        <div class="mb-3">
+                            <label class="form-label">
+                                {{ form.username.label}}
+                            </label>
+                            {{ form.username }}
+                        
+                        </div>
+                        
+                        <div class="mb-3">
+                        
+                            <label class="form-label">
+                                {{ form.email.label}}
+                            </label>
+                            {{ form.email }}
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">プロフィール画像</label>
+
+                            {% if request.user.profile.icon %}
+                            <div class="mb-2">
+                                <img src="{{ request.user.profile.icon.url }}" alt="現在の画像" class="rounded-circle" style="width: 80px; height: 80px; object-fit:cover ;">   
+                            </div>
+                            {% endif%}
+
+                            <input type="file" name="icon" class="form-control" accept="imge/*">
+
+                            {% for error in imge_form.icon.errors %}
+                            <div class="alert alert-danger mt-2">⚠️ {{ error }}</div>
+                            {% endfor %}
+                        </div>
+                        
+                        <div class="text-center mt-4">
+                            <button type="submit" class="btn btn-success">
+                                保存
+                            </button>
+                        </div>
+        
+                    </form>
+        
                 </div>
-                
-                <form method="post">
-                    {% csrf_token %}
-                    
-                    <div class="mb-3">
-                        <label class="form-label">
-                            {{ form.username.label}}
-                        </label>
-                        
-                        {{ form.username }}
-                    </div>
-                    
-                    <div class="mb-3">
-                        
-                        <label class="form-label">
-                            {{ form.email.label}}
-                        </label>
-                        
-                        {{ form.email }}
-                    
-                    </div>
-                    
-                    <div class="text-center mt-4">
-                        
-                        <button type="submit" class="btn btn-success">
-                            保存
-                        </button>
-                    </div>
-                </form>
         
             </div>
         

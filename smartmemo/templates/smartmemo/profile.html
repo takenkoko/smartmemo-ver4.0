@@ -18,6 +18,14 @@
                         プロフィール
                     </h2>
 
+                    <div class="text-center mb-4">
+                        {% if user.profile.icon %}
+                          <img src="{{ user.profile.icon.url }}" alt="プロフィール画像" class="rounded-circle" style="width: 120px; height: 120px; object-fit: cover;">
+                        {% else %}
+                          <p class="text-muted">画像未設定</p>
+                        {% endif %}
+                    </div>
+
                     <table class="table">
 
                         <tr>

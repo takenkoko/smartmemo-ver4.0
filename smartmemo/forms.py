@@ -5,6 +5,7 @@ from django.contrib.auth.forms import UserChangeForm
 from django.contrib.auth.forms import PasswordChangeForm
 from django.core.exceptions import ValidationError
 from django.contrib.auth.models import User
+from .models import Profile
 
 
 #==========================
@@ -170,3 +171,13 @@ def clean_new_password1(self):
     except ValidationError:
         raise ValidationError("パスワードが8文字以上で入力してください。")
     return password1
+
+#=========================
+# プロフィール画像フォーム
+#=========================
+
+class ProfileImageForm(forms.ModelForm):
+
+    class Meta:
+        model = Profile
+        fields = ("icon",)

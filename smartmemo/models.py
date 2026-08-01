@@ -1,3 +1,5 @@
+import uuid
+import os 
 from django.db import models
 from django.contrib.auth.models import User
 
@@ -31,3 +33,18 @@ class Memo(models.Model):
 
     def __str__(self):
         return self.title
+
+#日本語ファイル名や特殊文字によるトラブル対策
+def profile_icon_path(instance,filename):
+    ext = filename.split('.')[-1]
+    filename = f"{uuid.uuid4()}.{ext}"
+    return os.path.join('profile_icons/',filename)
+
+
+#プロフィール画像機能を追加
+class Profile(models.Model):
+    user = models.OneToOneField(User,on_delete=models.CASCADE,related_name='profile')
+    icon = models.ImageField(upload_to='profile_icons/',blank=True, null=True)
+
+    def __str__(self):
+        return f"{self.user.username}のプロフィール"
