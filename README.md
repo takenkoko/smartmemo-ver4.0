@@ -44,26 +44,33 @@ Django・Bootstrap・CSSで構築したシンプルなメモ管理Webアプリ�
 - プロフィール編集にアイコン変更機能を追加
 ![Edit](screenshots/edit_v5.0.png)
 
+- パスワードをお忘れですか？画面
+![PasswordReset](screenshots/password_reset_v5.0.png)
+
 
 ## Ver5.0 更新内容
-- プロフィール画像アップロード機能を追加
+
+- パスワードリセット機能を追加（メールアドレス確認・コンソール送信対応）
+- CustomPasswordResetForm / CustomSetPasswordForm を作成しBootstrap対応・日本語化
+- LANGUAGE_CODEを'ja'に変更し、Django標準のバリデーションメッセージも日本語化
+- ログイン画面に「パスワードを忘れた方はこちら」リンクを追加
 
 # バックエンド
 - Profileモデルを新規作成
-UserとOneToOneFieldで関連付け
-ImageFieldでプロフィール画面を保存
-マイグレーションを実行
+- UserとOneToOneFieldで関連付け
+- ImageFieldでプロフィール画面を保存
+- マイグレーションを実行
 
 - settings.pyへメディアファイル設定を追加
-MEDIA_URL
-MEDIA_ROOT
-urls.pyにstatic()を追加し、アップロード画像を配信
-signals.pyを作成
+- MEDIA_URL
+- MEDIA_ROOT
+- urls.pyにstatic()を追加し、アップロード画像を配信
+- signals.pyを作成
 - 新規ユーザー登録時にProfileを自動生成
-apps.pyのready()でシグナルを読み込み
-views.pyにProfileImageFormを作成
-profile_edit ビューを修正
-Profile.objects.get_or_create()を使用し、即存ユーザーにも対応
+- apps.pyのready()でシグナルを読み込み
+- views.pyにProfileImageFormを作成
+- profile_edit ビューを修正
+- Profile.objects.get_or_create()を使用し、即存ユーザーにも対応
 
 ## フロントエンド
 - profile_edit.html
@@ -88,20 +95,17 @@ Profile.objects.get_or_create()を使用し、即存ユーザーにも対応
 
 
 ## Features(主な機能)
-- Create memo
-- Edit memo
-- Delete memo
-- Search memo
-- Category support
-- Category badges
 - User registration (Sign Up)
-- User authentication (Login / Logout)
-- User-specific memo management
-- Profile view / edit
+- Login / Logout
+- Password reset
 - Password change
+- Profile management
+- Profile image upload
 - Account deletion
-- Bootstrap UI
+- Search
+- Categories
 
+- プロフィール画像アップロード機能を追加
 -  ユーザー登録（Sign Up）機能を追加
 - UserCreationForm をカスタマイズ
 -  RegisterForm を作成
@@ -133,6 +137,7 @@ Profile.objects.get_or_create()を使用し、即存ユーザーにも対応
 - Markdown support
 - Code syntax highlighting
 - Dark mode
+- Email verification
 
 
 ## 開発メモ
