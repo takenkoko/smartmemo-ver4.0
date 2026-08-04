@@ -3,8 +3,11 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.forms import UserCreationForm 
 from django.contrib.auth.forms import UserChangeForm
 from django.contrib.auth.forms import PasswordChangeForm
-from django.core.exceptions import ValidationError
+from django.contrib.auth.forms import PasswordResetForm
+from django.contrib.auth.forms import SetPasswordForm
 from django.contrib.auth.models import User
+from django.contrib.auth.password_validation import validate_password
+from django.core.exceptions import ValidationError
 from .models import Profile
 
 
@@ -163,14 +166,6 @@ class CustomPasswordChangeForm(PasswordChangeForm):
             "数字のみのパスワードは使用できません。"
         )
 
-#パスワードが8文字以上ではない場合
-def clean_new_password1(self):
-    password1 = self.cleaned_data.get("new_password1")
-    try:
-        super().clean_new_password1()
-    except ValidationError:
-        raise ValidationError("パスワードが8文字以上で入力してください。")
-    return password1
 
 #=========================
 # プロフィール画像フォーム
@@ -181,3 +176,58 @@ class ProfileImageForm(forms.ModelForm):
     class Meta:
         model = Profile
         fields = ("icon",)
+
+
+#=========================
+# パスワードリセットフォーム
+#=========================
+class CustomPasswordResetForm(PasswordResetForm):
+
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args,**kwargs)
+
+        self.fields["email"].label ="メールアドレス"
+        self.fields["email"].error_messages={
+            "required":"メールアドレスを入力してください。",
+            "invalid":"有効なメールアドレスを入力してください。"
+        }
+        self.fields["email"].widget.attrs.update({
+            "class":"form-control",
+            "placeholder":"メールアドレス",
+        })
+
+#=======================
+# 新パスワード設定フォーム
+# ======================
+class CustomSetPasswordForm(SetPasswordForm):
+
+    error_messages = {
+        **SetPasswordForm.error_messages,
+        "password_mismatch":"新しいパスワードと確認用パスワードが一致していません。",
+    }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.fields["new_password1"].label = "新しいパスワード"
+        self.fields["new_password2"].label = "新しいパスワード(確認)"
+
+        self.fields["new_password1"].widget.attrs.update({
+            "class":"form-control",
+            "placeholder":"新しいパスワード"
+        })
+
+        self.fields["new_password2"].widget.attrs.update({
+            "class":"form-control",
+            "placeholder":"新しいパスワード(確認)",
+        })
+
+        self.fields["new_password1"].help_text = (
+            "8文字以上で入力してください。"
+            "他の個人情報とに似すぎず、"
+            "よく使われるものや数字のみのパスワードは使用できません。"
+        )
+
+        
+        self.fields["new_password2"].help_text = " "
