@@ -55,7 +55,7 @@ Django・Bootstrap・CSSで構築したシンプルなメモ管理Webアプリ�
 - LANGUAGE_CODEを'ja'に変更し、Django標準のバリデーションメッセージも日本語化
 - ログイン画面に「パスワードを忘れた方はこちら」リンクを追加
 
-# バックエンド
+## バックエンド
 - Profileモデルを新規作成
 - UserとOneToOneFieldで関連付け
 - ImageFieldでプロフィール画面を保存
