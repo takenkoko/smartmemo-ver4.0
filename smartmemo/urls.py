@@ -1,4 +1,5 @@
 from django.urls import path
+from django.urls import reverse_lazy
 from django.contrib.auth import views as auth_views
 from .forms import RegisterForm, ProfileEditForm, CustomPasswordChangeForm, CustomPasswordResetForm, CustomSetPasswordForm
 from . import views
@@ -43,7 +44,7 @@ urlpatterns=[
         form_class=CustomPasswordResetForm,
         email_template_name="smartmemo/password_reset_email.html",
         subject_template_name="smartmemo/password_reset_subject.txt",
-        success_url="/password_reset/done/",
+        success_url=reverse_lazy("password_reset_done"),
     ),name="password_reset",),
 
     #「メールを送信しました」という案内画面
@@ -55,7 +56,7 @@ urlpatterns=[
     path("reset/<uidb64>/<token>/",auth_views.PasswordResetConfirmView.as_view(
         template_name="smartmemo/password_reset_confirm.html",
         form_class=CustomSetPasswordForm,
-        success_url="/reset/done/",
+        success_url=reverse_lazy("password_reset_complete"),
     ),name="password_reset_confirm",),
 
     #パスワード変更完了画面
