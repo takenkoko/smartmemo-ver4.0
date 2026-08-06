@@ -49,34 +49,11 @@ Django・Bootstrap・CSSで構築したシンプルなメモ管理Webアプリ�
 
 
 ## Ver5.0 更新内容
+- Gmail SMTPを利用したパスワードリセットメール送信に対応 (Added Gmail SMTP support for password reset emails)
+- パスワードリセット機能を実装（Implemented password reset functionality）
+- Django 標準のバリデーションメッセージを日本語化（Localized Django validation messages）
+- ログイン画面に「パスワードを忘れた方はこちら」リンクを追加（Added a "Forgot your password?" link）
 
-- パスワードリセット機能を追加（メールアドレス確認・コンソール送信対応）
-- CustomPasswordResetForm / CustomSetPasswordForm を作成しBootstrap対応・日本語化
-- LANGUAGE_CODEを'ja'に変更し、Django標準のバリデーションメッセージも日本語化
-- ログイン画面に「パスワードを忘れた方はこちら」リンクを追加
-
-## バックエンド
-- Profileモデルを新規作成
-- UserとOneToOneFieldで関連付け
-- ImageFieldでプロフィール画面を保存
-- マイグレーションを実行
-
-- settings.pyへメディアファイル設定を追加
-- MEDIA_URL
-- MEDIA_ROOT
-- urls.pyにstatic()を追加し、アップロード画像を配信
-- signals.pyを作成
-- 新規ユーザー登録時にProfileを自動生成
-- apps.pyのready()でシグナルを読み込み
-- views.pyにProfileImageFormを作成
-- profile_edit ビューを修正
-- Profile.objects.get_or_create()を使用し、即存ユーザーにも対応
-
-## フロントエンド
-- profile_edit.html
-画像アップロード欄を追加
-- profile.html
-プロフィール画面を丸型で表示
 
 ## デバッグしたこと
 - makemigrationsの「No changes detected」（保存忘れ）
@@ -95,32 +72,26 @@ Django・Bootstrap・CSSで構築したシンプルなメモ管理Webアプリ�
 
 
 ## Features(主な機能)
-- User registration (Sign Up)
-- Login / Logout
-- Password reset
-- Password change
-- Profile management
-- Profile image upload
-- Account deletion
-- Search
-- Categories
+- ユーザー登録（Sign Up）
+- ログイン / ログアウト（Login / Logout）
+- パスワードリセット（Password Reset）
+- パスワード変更（Password Change）
+- プロフィール表示・編集（Profile Management）
+- プロフィール画像アップロード（Profile Image Upload）
+- メモの作成・編集・削除（Create / Edit / Delete）
+- メモ検索（Search）
+- カテゴリ管理（Categories）
+- アカウント削除（Account Deletion）
 
-- プロフィール画像アップロード機能を追加
--  ユーザー登録（Sign Up）機能を追加
-- UserCreationForm をカスタマイズ
--  RegisterForm を作成
-- ユーザー登録画面を作成
-- Bootstrap対応登録フォーム
-- ログイン画面・登録画面のUIを統一
-- ラベル・help_text を日本語化
-- ログイン画面に「新規登録はこちら」を追加
-- `{{ form.as_p }}` を卒業し、フォームを手動で作成
-- 新たにナビゲーションバーの色を変更
-- プロフィール画面（表示・編集）を追加
-- ユーザー登録時にメールアドレス入力欄を追加
-- パスワード変更機能を追加（PasswordChangeView + カスタムフォームで日本語化）
-- アカウント削除機能を追加（パスワード確認・確認ダイアログ付き）
-
+## Technical Highlights(開発内容)
+- Django標準認証フォームをカスタマイズ（Customized Django authentication forms）
+- Bootstrap対応のフォームデザインを実装（Bootstrap-styled forms）
+- OneToOneFieldを利用したプロフィール管理（Profile model with OneToOneField）
+- ImageFieldを利用したプロフィール画像アップロード機能（Image upload using ImageField）
+- Gmail SMTPを利用したパスワードリセットメール送信（Password reset via Gmail SMTP）
+-  Django標準バリデーションメッセージの日本語化（Japanese localization of Django validation messages）
+- UUIDによるアップロード画像ファイル名の自動生成（Automatic UUID-based filename generation for uploaded images）
+- Django Signalsを利用したプロフィール自動作成（Automatic profile creation using Django Signals）
 
 ## Tech Stack
 - Python
@@ -139,12 +110,17 @@ Django・Bootstrap・CSSで構築したシンプルなメモ管理Webアプリ�
 - Dark mode
 - Email verification
 
+## Version History
+- Ver1.0 CRUD
+- Ver2.0 Search & Categories
+- Ver3.0 Authentication
+- Ver4.0 Profile / Password Change / Account Deletion
+- Ver5.0 Profile Image Upload & Password Reset
+
 
 ## 開発メモ
 SmartMemoは、Djangoの学習とWebアプリケーション開発の理解を目的として開発しています。
-
 現在も継続的に機能追加・改善を行い、バージョンアップを続けています。
-
 将来的には、通常のメモだけでなく、コードも保存・管理できるメモアプリへ発展させる予定です。
 
   
