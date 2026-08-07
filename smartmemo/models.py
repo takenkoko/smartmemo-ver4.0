@@ -48,3 +48,26 @@ class Profile(models.Model):
 
     def __str__(self):
         return f"{self.user.username}のプロフィール"
+
+
+#日付を追加
+class Memo(models.Model):
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+    )
+    title = models.CharField(max_length=100)
+    content = models.TextField()
+    category = models.ForeignKey(
+        Category,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,  
+    )
+    created_at = models.DateTimeField(auto_now_add=True)  # 作成日時
+    updated_at = models.DateTimeField(auto_now=True)      # 更新日時
+
+    def __str__(self):
+        return self.title
