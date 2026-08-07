@@ -64,4 +64,7 @@ urlpatterns=[
         template_name="smartmemo/password_reset_complete.html",
     ),name="password_reset_complete",),
 
+    #詳細画面を追加する
+    path("memo/<int:memo_id>/",views.detail,name="detail"),
+
 ]

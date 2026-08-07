@@ -44,14 +44,21 @@
                     </select>
                  </div>
 
-                 <div class="mb-3">
-                    <label class="form-label">
-                        内容
-                    </label>
-                    <textarea name="content" class="form-control" rows="6"></textarea>
-
-                 </div>
-
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">
+                            内容 (Markdown形式で記述可能)
+                        </label>
+                        <textarea id="memo-content" name="content" class="form-control" rows="6"></textarea>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">
+                            プレビュー
+                        </label>
+                        <div id="preview" class="border rounded p-3" style="height:375px; overflow-y:auto;"></div>
+                    </div>
+                </div>
+                 
                  <button type="submit" class="btn btn-success">
                     保存
                 </button>
@@ -62,5 +69,41 @@
 
             </form>
         </div>
+        <!--javascript-->
+        <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/dompurify@3/dist/purify.min.js"></script>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/codemirror@5.65.16/lib/codemirror.min.css">
+        <script src="https://cdn.jsdelivr.net/npm/codemirror@5.65.16/lib/codemirror.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/codemirror@5.65.16/mode/markdown/markdown.min.js"></script>
+        
+        <script>
+            const previewDiv = document.getElementById('preview');
+            const textarea = document.getElementById('memo-content');
+
+            //textareaをCodlabに変換
+            const editor = CodeMirror.fromTextArea(textarea, {
+                mode: 'markdown',
+                lineNumbers: true,
+                lineWrapping: true,
+                theme:'default',
+            });
+
+            editor.setSize('100%',375);//高さプレビュー欄を揃える
+
+            function updatePreview(){
+                    const rawHTML = marked.parse(editor.getValue());
+                    previewDiv.innerHTML = DOMPurify.sanitize(rawHTML);
+            }
+            
+
+            //入力のたびにプレイヤーを更新
+            editor.on('change',updatePreview);
+
+            //フォーム送信前に、Codemirrorの内容をtextareaに反映
+            const form = document.querySelector('form');
+            form.addEventListener('submit', ()=>{
+                editor.save(); 
+            });
+        </script>
     </body>
 </html>

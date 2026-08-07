@@ -26,8 +26,12 @@ SmartMemoへようこそ!
         {% endif %}
 
 
-        <h4>{{ memo.title }}</h4>
-        <p>{{ memo.content }}</p>
+        <h4 style="font-size: 2rem;">
+            <a href="{% url 'detail' memo.id %}" style="text-decoration: none; color: inherit;">
+                {{ memo.title }}
+            </a>
+        </h4>
+        <p>{{ memo.content_html|safe }}</p>
 
         <a href="/edit/{{memo.id}}/" class="btn btn-warning btn-sm">編集</a>
         <a href="/delete/{{memo.id}}/" class="btn btn-danger btn-sm">削除</a>

@@ -1,0 +1,36 @@
+{% extends "smartmemo/base.html" %}
+
+{% block title %}
+{{ memo.title }}
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="card shadow-sm">
+        <div class="card-body">
+
+            {% if memo.category %}
+            <a href="{% url 'category' memo.category.id %}" class="text-decoration-none">
+                <span class="badge bg-primary">
+                    {{ memo.category.name }}
+                </span>
+            </a>
+            {% endif %}
+
+            <h2>{{ memo.title }}</h2>
+            <hr>
+
+            <div class="memo-content">
+                {{ memo.content_html|safe }}
+            </div>
+
+            <div class="mt-4">
+                <a href="{% url 'edit' memo.id %}" class="btn btn-warning btn-sm">編集</a>
+                <a href="{% url 'delete' memo.id %}" class="btn btn-danger btn-sm">削除</a>
+                <a href="/" class="btn btn-secondary btn-sm">一覧へ戻る</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

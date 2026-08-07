@@ -20,13 +20,22 @@
                     <label class="form-label">タイトル</label>
                     <input type="text" name="title" value="{{memo.title}}" class="form-control">
                 </div>
-                <div class="mb-3">
-                    <label class="form-label">内容</label>
-                    <textarea 
-                    name="content" 
-                    rows="6"
-                    class="form-control">{{memo.content}}</textarea>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">内容(Markdown形式で記述可能)</label>
+                        <textarea 
+                        id="memo-content"
+                        name="content" 
+                        rows="6"
+                        class="form-control">{{memo.content}}</textarea>
+                    </div>
+                    <div class=" col-md-6 mb-3">
+                        <label class="form-label">プレビュー</label>
+                        <div id="preview" class="border rounded p-3" style="height:375px; overflow-y:auto;"></div>
+                    </div>
                 </div>
+                
                 <button type="submit" class="btn btn-secondary">
                     更新
                 </button>
@@ -35,6 +44,35 @@
                 </a>
             </form>
         </div>
+        <!--javascript-->
+        <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/dompurify@3/dist/purify.min.js"></script>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/codemirror@5.65.16/lib/codemirror.min.css">
+        <script src="https://cdn.jsdelivr.net/npm/codemirror@5.65.16/lib/codemirror.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/codemirror@5.65.16/mode/markdown/markdown.min.js"></script>
+        
+        <script>
+            const previewDiv = document.getElementById('preview');
+            const textarea = document.getElementById('memo-content');
+
+            //textareaをCodlabに変換
+            const editor = CodeMirror.fromTextArea(textarea, {
+                mode: 'markdown',
+                lineNumbers: true,
+                lineWrapping: true,
+                theme:'default',
+            });
+
+            editor.setSize('100%',375);//高さプレビュー欄を揃える
+
+            function updatePreview(){
+                const rawHTML = marked.parse(editor.getValue());
+                previewDiv.innerHTML = DOMPurify.sanitize(rawHTML);
+            }
+
+            editor.on('change',updatePreview);
+            updatePreview(); //初期表示のプレビューを更新
+        </script>
     </body>
 </html>
 

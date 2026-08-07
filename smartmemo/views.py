@@ -8,13 +8,39 @@ from .forms import RegisterForm,ProfileEditForm,ProfileImageForm  #ユーザー�
 from .models import Profile
 from django.shortcuts import render,redirect
 
+import markdown
+import bleach
+
+ALLOWED_TAGS = ['p','strong','em','h1','h2','h3','h4','ul','ol','li','blockquote','code','a','br']
+ALLOWED_ATTRIBUTES = {'a':['href']}
 
 # Create your views here.
+#Markdown交換とHTMLサニタイズを行う関数を作成
+def render_memo_content(memo):
+    html = markdown.markdown(memo)
+    return bleach.clean(html, tags=ALLOWED_TAGS, attributes=ALLOWED_ATTRIBUTES)
+
 @login_required
 def index(request):
-    memos=Memo.objects.filter(user=request.user)#
+    memos=Memo.objects.filter(user=request.user)
+
+    for memo in memos:
+        memo.content_html = render_memo_content(memo.content)
+        
     return render(request,"smartmemo/index.html",{
         "memos":memos,
+    })
+
+#========================
+#詳細画面を作成する
+#========================
+@login_required
+def detail(request,memo_id):
+    memo = Memo.objects.get(id=memo_id, user=request.user)
+    memo.content_html = render_memo_content(memo.content)
+
+    return render(request,"smartmemo/detail.html",{
+        "memo":memo,
     })
 
 #============
